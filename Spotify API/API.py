@@ -58,7 +58,7 @@ def extractPlaylistId(spotifyUrl):
     else:
         return None
     
-playlistId = extractPlaylistId('https://open.spotify.com/playlist/1h1WOGO9v0YqCDwm2Lvncw')
+playlistId = extractPlaylistId('https://open.spotify.com/playlist/3sWwKAETNrcp41VnrfKeT1?si=73ba8407da3843a1&nd=1&dlsi=09786e13497c493a')
 
 # Función para obtener la información de una playlist
 def getPlaylist(token, playlistId):
