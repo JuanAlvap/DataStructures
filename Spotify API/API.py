@@ -97,15 +97,33 @@ jsonPlaylist = getPlaylist(getToken(), playlistId)
 with open('Spotify API/playlist.json', 'w', encoding='utf-8') as jsonFile:
     json.dump(jsonPlaylist, jsonFile, ensure_ascii=False, indent=4)
 
-# Función para convertir el id del artista a la suma de los valores en ASCII
-def convertAscii(str):
-    numAscii = 0
+# Función para convertir el id del artista a numeros con ayuda del ASCII
+def convertAscii(string):
+    ascii = ""
     # Se carga el archivo JSON que contiene los valores en ASCII de cada letra
     with open('Spotify API/asciiTable.json', 'r', encoding='utf-8') as file:
         asciiFile = json.load(file)
-    # Se recorre el string, se multiplica el valor del ASCII el indice y leugo se suma
-    for i in range(len(str)):
-        numAscii += asciiFile[str[i]]*(i+1)
+    # Se recorre el string, se obtiene el valor de cada letra en ascii y se concatena a un string
+    for i in range(len(string)):
+        numero = int(asciiFile[string[i]])
+        ascii += str(numero)
+
+    # Se convierte el string en un numero entero y se retorna como id
+    numAscii = int(ascii)
     return numAscii
 
-print(convertAscii("4iaNmAvcZ6sPGvgZ6vQQdx"))
+print (convertAscii("2SzgK8i6si6ETtu57nTdSn"))
+
+def recorrerJson():
+    with open('Spotify API/playlist.json', 'r', encoding='utf-8') as jsonFile:
+        # Se carga el archivo JSON que contiene la información de la playlist
+        jsonPlaylist = json.load(jsonFile)
+
+    # Se recorre la lista de respuestas en JSON y se obtiene el id de la playlist
+    for i in range(len(jsonPlaylist)):
+        for j in range(len(jsonPlaylist[i]['items'])):
+            playlistId = jsonPlaylist[i]['items'][j]['track']['id']
+            
+            print(convertAscii(playlistId))
+
+recorrerJson()
