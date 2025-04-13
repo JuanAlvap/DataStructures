@@ -7,7 +7,7 @@ songsTree = AVL.AVLTree()
 artistsTree = AVL.AVLTree()
 api = API.API()
 
-condicion = input("¿Desea ingresar la playlist manualmente? (s/n): ")
+condicion = input("¿Desea usar una playlist nueva? (s/n): ")
 if (condicion == 's'):
     playlist = input("Inserte la playlist: ")
     api.startAPI(playlist)
