@@ -1,6 +1,6 @@
 import CancionClass
 import ArtistClass
-
+import json
 class AVLTree:
     def __init__(self):
         self.root = None
@@ -13,7 +13,7 @@ class AVLTree:
             print("El elemento ya está")
             return root
         
-        if new_node.ID > root.ID:
+        if new_node.uniqueID > root.uniqueID:
             root.right = self.addNode(root.right, new_node)
         else:
             root.left = self.addNode(root.left, new_node)
@@ -63,15 +63,28 @@ class AVLTree:
         new_node = CancionClass.Cancion(id, name, artistas, duracion, popularidad)
         if self.root is None:
             self.root = new_node
-            print(f"La raíz ha sido añadida {new_node.ID}")
+            print(f"La raíz ha sido añadida {new_node.uniqueID}")
         else:
             self.root = self.addNode(self.root, new_node)
             
 
-    def generateArtistsTree(self, ID, name):
-        new_node = ArtistClass.Artist(ID, name)
+    def generateArtistsTree(self, artist):
         if self.root is None:
-            self.root = new_node
-            print(f"La raíz ha sido añadida {new_node.ID}")
+            self.root = artist
+            print(f"La raíz ha sido añadida {artist.uniqueID}")
         else:
-            self.root = self.addNode(self.root, new_node)
+            self.root = self.addNode(self.root, artist)
+    
+    def convertAscii(self, string):
+        ascii = ""
+        # Se carga el archivo JSON que contiene los valores en ASCII de cada letra
+        with open('asciiTable.json', 'r', encoding='utf-8') as file:
+            asciiFile = json.load(file)
+        # Se recorre el string, se obtiene el valor de cada letra en ascii y se concatena a un string
+        for i in range(len(string)):
+            numero = int(asciiFile[string[i]])
+            ascii += str(numero)
+
+        # Se convierte el string en un numero entero y se retorna como id
+        numAscii = int(ascii)
+        return numAscii
