@@ -1,9 +1,16 @@
 import AVL
 import json
 import ArtistClass
+import API
 
 songsTree = AVL.AVLTree()
 artistsTree = AVL.AVLTree()
+api = API.API()
+
+condicion = input("¿Desea ingresar la playlist manualmente? (s/n): ")
+if (condicion == 's'):
+    playlist = input("Inserte la playlist: ")
+    api.startAPI(playlist)
 
 with open('playlist.json', 'r', encoding='utf-8') as jsonFile:
     # Se carga el archivo JSON que contiene la información de la playlist

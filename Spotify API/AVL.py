@@ -10,7 +10,7 @@ class AVLTree:
             return new_node
         
         if root.uniqueID == new_node.uniqueID:
-            print("El elemento ya está")
+            #print("El elemento ya está")
             return root
         
         if new_node.uniqueID > root.uniqueID:
