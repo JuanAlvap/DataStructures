@@ -65,7 +65,6 @@ class API:
                     break
 
             except Exception as e:
-                print(f"An error occurred: {e}")
                 break
 
         return allResponses
@@ -76,5 +75,3 @@ class API:
         jsonPlaylist = self.getPlayList(token, playlistId)
         with open('playlist.json', 'w', encoding='utf-8') as jsonFile:
             json.dump(jsonPlaylist, jsonFile, ensure_ascii=False, indent=4)
-
-        print("Celebralo curramba")
