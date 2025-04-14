@@ -75,6 +75,7 @@ class AVLTree:
         else:
             self.root = self.addNode(self.root, artist)
     
+    # Función para convertir un string a su valor en ASCII
     def convertAscii(self, string):
         ascii = ""
         # Se carga el archivo JSON que contiene los valores en ASCII de cada letra
@@ -85,6 +86,6 @@ class AVLTree:
             numero = int(asciiFile[string[i]])
             ascii += str(numero)
 
-        # Se convierte el string en un numero entero y se retorna como id
+        # Se convierte el string en un numero entero y se retorna como un valor numerico
         numAscii = int(ascii)
         return numAscii

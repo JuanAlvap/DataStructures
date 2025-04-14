@@ -14,21 +14,17 @@ class API:
         self.clientSecret = os.getenv("CLIENT_SECRET")  
     
     # Función para obtener el token de acceso a la API de Spotify
-    # Se utiliza el grant_type client_credentials para obtener el token
-    # Se utiliza el client_id y client_secret para autenticar la aplicación
-    # Se utiliza el endpoint /api/token para obtener el token
-    # Se utiliza el método POST para enviar los datos al servidor
-    # Se utiliza el header Content-Type para indicar el tipo de contenido que se está enviando
-    # Se utiliza el data para enviar los datos al servidor
-    # Se utiliza el método json() para obtener la respuesta en formato JSON
     def getAccessToken(self, client_id:str, client_secret:str):
+        # Se previene algun error en la petición
         try:
+                # Se hace una petición POST a la API de Spotify para obtener el token de acceso
                 res = requests.post("https://accounts.spotify.com/api/token", 
                                     headers={"Content-Type": "application/x-www-form-urlencoded"}, 
                                     data={"grant_type": "client_credentials",
                                         "client_id": client_id,
                                         "client_secret": client_secret 
                                         })
+                # Se retorna el token de acceso en formato JSON
                 return res.json()['access_token']
         except Exception as e:
             print(e)
@@ -49,26 +45,34 @@ class API:
         else:
             return None
 
+    # Función para obtener la playlist completa
     def getPlayList(self, access_token: str, playlist_id):
         i = 0
         allResponses = []
 
+        # Se hace un bucle infinito para obtener todas las canciones de la playlist hasta que no haya más canciones
         while True:
+            # Se previene algun error en la petición
             try:
+                # Se hace una petición GET a la API de Spotify para obtener la playlist
                 result = requests.get(f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks?offset={i}&limit=100",
                                 headers={"Authorization": f"Bearer {access_token}"})
 
+                # Se almacena la respuesta en formato JSON, se añade a la lista de respuestas y se incrementa el offset 
                 jsonResult = result.json()
                 allResponses.append(jsonResult)
                 i += 100
+                # Se pregunta si el siguiente offset es None o no existe, si es asi se sale del bucle
                 if jsonResult['next'] is None or not jsonResult.get('next'):
                     break
 
             except Exception as e:
                 break
-
+        
+        # Se retorna la lista de respuestas
         return allResponses
 
+    # Función para iniciar la API desde el Main y obtener la playlist completa
     def startAPI(self, playlist:str):
         token = self.getAccessToken(self.clientId, self.clientSecret)
         playlistId = self.extractPlaylistId(playlist)
