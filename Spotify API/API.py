@@ -71,6 +71,17 @@ class API:
         
         # Se retorna la lista de respuestas
         return allResponses
+    
+    # Función para obtener la imagen de la playlist
+    def obtainImage(self, access_token: str, playlist_id):
+        playlist_id = self.extractPlaylistId(playlist_id)
+        # Se hace una petición GET a la API de Spotify para obtener la imagen de la playlist
+        result = requests.get(f"https://api.spotify.com/v1/playlists/{playlist_id}/images",
+                        headers={"Authorization": f"Bearer {access_token}"})
+
+        # Se almacena la respuesta en formato JSON y se retorna
+        jsonResult = result.json()
+        return jsonResult
 
     # Función para iniciar la API desde el Main y obtener la playlist completa
     def startAPI(self, playlist:str):
@@ -79,3 +90,7 @@ class API:
         jsonPlaylist = self.getPlayList(token, playlistId)
         with open('playlist.json', 'w', encoding='utf-8') as jsonFile:
             json.dump(jsonPlaylist, jsonFile, ensure_ascii=False, indent=4)
+        image = self.obtainImage(token, playlistId)
+        with open('image.json', 'w', encoding='utf-8') as jsonFile:
+            json.dump(image, jsonFile, ensure_ascii=False, indent=4)
+        

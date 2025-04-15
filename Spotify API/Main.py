@@ -19,12 +19,14 @@ with open('playlist.json', 'r', encoding='utf-8') as jsonFile:
     # Se carga el archivo JSON que contiene la información de la playlist
     jsonPlaylist = json.load(jsonFile)
 
-    # Se recorre la lista de respuestas en JSON y se obtiene el id de la playlist
+# Se recorre la lista de respuestas en JSON y se obtiene el id de la playlist
 artistas_unicos = {} #lista de artistas totales del árbol como objetos
 # Se valida si la playlist es valida para el análisis de datos
-if int(jsonPlaylist[0]['error']['status']) == 404:
-    print("Playlist no encontrada")
-    print("Digite un playlist correcta")
+if len(jsonPlaylist) == 1:
+    if int(jsonPlaylist[0]['error']['status']) == 404:
+        print("Playlist no encontrada")
+        print("Digite un playlist correcta")
+        print(len(jsonPlaylist))
 else:
     # Si es valida se recorre la lista de respuestas en JSON
     for i in range(len(jsonPlaylist)):
@@ -41,7 +43,7 @@ else:
                 if artist not in artistas_unicos:
                     artistas_unicos[artist] = ArtistClass.Artist(artistsTree.convertAscii(artistID), artist)
                 artistList.append(artistas_unicos[artist]) #Lista de artistas de una cancion como objetos
-
+            
     #---------------------------------------------------------------------------------------------------------------
                 # Se genera el árbol de artistas
                 artistsTree.generateArtistsTree(artistas_unicos[artist])
@@ -53,7 +55,8 @@ else:
             songPopularity = jsonPlaylist[i]['items'][j]['track']['popularity']
             # Se genera el árbol de canciones
             songsTree.generateSongsTree(songsTree.convertAscii(songID), songName, artistList, songDuration, songPopularity)
-    """
+
+            """
     print("\nCanciones: ")
 
     print("\nÁrbol en Preorden:")
@@ -63,3 +66,4 @@ else:
 
     print("\nÁrbol en Preorden:")
     artistsTree.pre_order(artistsTree.root)
+    
