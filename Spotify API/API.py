@@ -43,7 +43,7 @@ class API:
                 return parts
         # Si no contiene '/playlist/' significa que no es una URL valida
         else:
-            return None
+            return spotifyUrl
 
     # Función para obtener la playlist completa
     def getPlayList(self, access_token: str, playlist_id):
@@ -74,7 +74,6 @@ class API:
     
     # Función para obtener la imagen de la playlist
     def obtainImage(self, access_token: str, playlist_id):
-        playlist_id = self.extractPlaylistId(playlist_id)
         # Se hace una petición GET a la API de Spotify para obtener la imagen de la playlist
         result = requests.get(f"https://api.spotify.com/v1/playlists/{playlist_id}/images",
                         headers={"Authorization": f"Bearer {access_token}"})

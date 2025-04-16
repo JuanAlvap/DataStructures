@@ -9,6 +9,6 @@ class Cancion:
         self.left = None
         self.right = None
         self.balance = 0
-    
+
     def __str__(self):
-        return f"{self.name} - {', '.join(self.artists)} ({self.duracion}s, Popularidad: {self.popularidad})"
+        return f"{self.name} - Popularidad: {self.popularidad}"
